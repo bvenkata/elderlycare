@@ -87,16 +87,36 @@
     });
 
     form.addEventListener('submit', async (e) => {
-      e.preventDefault();
-      const formData = new FormData(form);
-      const data = Object.fromEntries(formData);
+  e.preventDefault();
+  const formData = new FormData(form);
+  const data = Object.fromEntries(formData);
 
-      try {
-        const res = await fetch('https://qr-code-generator-wr3i.onrender.com/api/waitlist', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(data),
-        });
+  try {
+    const res = await fetch('https://qr-code-generator-wr3i.onrender.com/api/waitlist', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data),
+    });
+
+    const result = await res.json();
+    if (res.ok) {
+      document.body.innerHTML = `
+        <section class="flex flex-col items-center justify-center text-center px-6 py-20">
+          <h1 class="text-3xl sm:text-4xl font-bold text-green-600 mb-4">🎉 Thanks for joining!</h1>
+          <p class="text-lg text-gray-700">We’ll get back to you shortly.</p>
+        </section>
+      `;
+    } else {
+      message.textContent = `❌ ${result.error}`;
+      message.classList.remove('text-green-600');
+      message.classList.add('text-red-600');
+    }
+  } catch (err) {
+    message.textContent = '❌ Something went wrong.';
+    message.classList.remove('text-green-600');
+    message.classList.add('text-red-600');
+  }
+});
 
         const result = await res.json();
         if (res.ok) {
