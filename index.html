@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Join the Waitlist</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gradient-to-br from-blue-50 to-purple-100 text-gray-800 min-h-screen">
+  <!-- Navbar -->
+  <nav class="bg-white shadow-md py-4 px-8 flex justify-between items-center fixed w-full top-0 z-10">
+    <div class="text-2xl font-bold text-blue-700">Majestic</div>
+  </nav>
+
+  <!-- Content Wrapper with top padding for navbar -->
+  <div class="pt-24 flex flex-col items-center justify-center px-4">
+    <!-- Hero Image -->
+    <img src="https://images.unsplash.com/photo-1588776814546-ec7c911fbd66?auto=format&fit=crop&w=800&q=80" alt="Elderly Care" class="rounded-3xl shadow-lg w-full max-w-2xl mb-8">
+
+    <div class="bg-white p-10 rounded-3xl shadow-2xl max-w-lg w-full text-center">
+      <h1 class="text-3xl font-extrabold mb-4 text-blue-700">Helping Hands for Your Loved Ones</h1>
+      <p class="mb-4 text-gray-600">We provide trusted, on-demand non-medical care for seniors. Here's what makes us special:</p>
+      <ul class="text-left text-gray-700 list-disc list-inside mb-6">
+        <li>Grocery and prescription pickups</li>
+        <li>Light housework and laundry help</li>
+        <li>Tech help with phones, tablets, or Zoom</li>
+        <li>Daily companionship and friendly check-ins</li>
+        <li>Affordable and flexible scheduling</li>
+        <li>Background-checked, trusted local helpers</li>
+      </ul>
+      <button id="showFormBtn" class="bg-blue-600 text-white px-6 py-3 rounded-xl font-semibold text-lg hover:bg-blue-700 transition">Join the Waitlist</button>
+
+      <form id="waitlistForm" class="space-y-5 mt-6 hidden text-left">
+        <input type="text" name="name" placeholder="Your Name" required class="w-full p-4 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-300" />
+        <input type="email" name="email" placeholder="Your Email" required class="w-full p-4 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-300" />
+        <input type="text" name="zip" placeholder="Your Zip Code" required class="w-full p-4 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-300" />
+
+        <select name="purpose" required class="w-full p-4 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-300">
+          <option value="" disabled selected>Select your purpose</option>
+          <option value="grocery">Grocery/Errands</option>
+          <option value="companionship">Companionship</option>
+          <option value="tech_help">Tech Help</option>
+          <option value="housework">Light Housework</option>
+          <option value="other">Other</option>
+        </select>
+
+        <button type="submit" class="w-full bg-blue-600 text-white py-4 rounded-xl font-semibold text-lg hover:bg-blue-700 transition">Join the Waitlist</button>
+        <p id="message" class="text-center text-sm mt-3"></p>
+      </form>
+
+      <p class="text-xs text-center text-gray-400 mt-6">🔒 We respect your privacy. No spam, ever.</p>
+    </div>
+  </div>
+
+  <script>
+    const showFormBtn = document.getElementById('showFormBtn');
+    const form = document.getElementById('waitlistForm');
+    const message = document.getElementById('message');
+
+    showFormBtn.addEventListener('click', () => {
+      form.classList.remove('hidden');
+      showFormBtn.style.display = 'none';
+    });
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const formData = new FormData(form);
+      const data = Object.fromEntries(formData);
+
+      try {
+        const res = await fetch('http://localhost:3000/api/waitlist', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(data),
+        });
+
+        const result = await res.json();
+        if (res.ok) {
+          message.textContent = '🎉 Thanks for joining! We’ll get back to you shortly.';
+          message.classList.remove('text-red-600');
+          message.classList.add('text-green-600');
+          form.reset();
+        } else {
+          message.textContent = `❌ ${result.error}`;
+          message.classList.remove('text-green-600');
+          message.classList.add('text-red-600');
+        }
+      } catch (err) {
+        message.textContent = '❌ Something went wrong.';
+        message.classList.remove('text-green-600');
+        message.classList.add('text-red-600');
+      }
+    });
+  </script>
+</body>
+</html>
