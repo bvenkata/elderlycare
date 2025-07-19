@@ -2,8 +2,8 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Majestic - Waitlist</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Your SaaS - Join Waitlist</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
     .gradient-text {
@@ -13,108 +13,16 @@
     }
   </style>
 </head>
-<body class="bg-white text-gray-800 min-h-screen">
+<body class="bg-white text-gray-800 min-h-screen flex flex-col">
+
   <!-- Navbar -->
-  <nav class="flex justify-between items-center p-6 max-w-6xl mx-auto">
-    <div class="text-xl sm:text-2xl font-bold text-gray-900">Majestic</div>
+  <nav class="flex justify-between items-center p-6 max-w-6xl mx-auto w-full">
+    <div class="text-2xl font-bold text-gray-900">Your SaaS</div>
   </nav>
 
   <!-- Hero Section -->
-  <section class="flex flex-col items-center justify-center text-center px-6 pt-20 pb-10">
-    <h1 class="text-4xl sm:text-5xl font-extrabold mb-4">
-      Helping Hands for <span class="gradient-text">Your Loved Ones</span>
+  <main class="flex-grow flex flex-col items-center justify-center text-center px-6 py-20 max-w-3xl mx-auto">
+    <h1 class="text-5xl font-extrabold mb-4">
+      Unlock the Power of <span class="gradient-text">AI Insights</span> for Your Business
     </h1>
-    <div class="mb-8 max-w-2xl text-gray-700">
-      <p class="text-base sm:text-lg mb-4">We provide <strong class="text-black">trusted, on-demand non-medical care</strong> for seniors. Here’s how we can help:</p>
-      <div class="grid sm:grid-cols-2 gap-4 text-sm sm:text-base">
-        <div class="flex items-start gap-3">
-          <span class="text-green-500">✔️</span> <span>Grocery and prescription pickups</span>
-        </div>
-        <div class="flex items-start gap-3">
-          <span class="text-green-500">✔️</span> <span>Light housework and laundry help</span>
-        </div>
-        <div class="flex items-start gap-3">
-          <span class="text-green-500">✔️</span> <span>Tech help with phones, tablets, or Zoom</span>
-        </div>
-        <div class="flex items-start gap-3">
-          <span class="text-green-500">✔️</span> <span>Daily companionship and friendly check-ins</span>
-        </div>
-        <div class="flex items-start gap-3">
-          <span class="text-green-500">✔️</span> <span>Affordable and flexible scheduling</span>
-        </div>
-        <div class="flex items-start gap-3">
-          <span class="text-green-500">✔️</span> <span>Background-checked, trusted local helpers</span>
-        </div>
-      </div>
-    </div>
-    <button id="showFormBtn" class="bg-black text-white px-6 py-3 rounded-full font-semibold hover:bg-gray-800 transition">
-      Join the Waitlist
-    </button>
-  </section>
-
-  <!-- Form Section -->
-  <section id="waitlistForm" class="hidden max-w-xl mx-auto px-6 pb-12">
-    <form class="space-y-5">
-      <input type="text" name="name" placeholder="Your Name" required class="w-full p-4 border border-gray-300 rounded-xl" />
-      <input type="email" name="email" placeholder="Your Email" required class="w-full p-4 border border-gray-300 rounded-xl" />
-      <input type="text" name="zip" placeholder="Your Zip Code" required class="w-full p-4 border border-gray-300 rounded-xl" />
-      <select name="purpose" required class="w-full p-4 border border-gray-300 rounded-xl">
-        <option value="" disabled selected>Select your purpose</option>
-        <option value="grocery">Grocery/Errands</option>
-        <option value="companionship">Companionship</option>
-        <option value="tech_help">Tech Help</option>
-        <option value="housework">Light Housework</option>
-        <option value="other">Other</option>
-      </select>
-      <button type="submit" class="w-full bg-black text-white py-4 rounded-xl font-semibold text-lg hover:bg-gray-800 transition">Submit</button>
-      <p id="message" class="text-center text-sm mt-3"></p>
-    </form>
-    <p class="text-xs text-center text-gray-400 mt-6">🔒 We respect your privacy. No spam, ever.</p>
-  </section>
-
-  <script>
-    const showFormBtn = document.getElementById('showFormBtn');
-    const formSection = document.getElementById('waitlistForm');
-    const message = document.getElementById('message');
-    const form = formSection.querySelector('form');
-
-    showFormBtn.addEventListener('click', () => {
-      formSection.classList.remove('hidden');
-      showFormBtn.style.display = 'none';
-      window.scrollTo({ top: formSection.offsetTop - 20, behavior: 'smooth' });
-    });
-
-    form.addEventListener('submit', async (e) => {
-      e.preventDefault();
-      const formData = new FormData(form);
-      const data = Object.fromEntries(formData);
-
-      try {
-        const res = await fetch('https://qr-code-generator-wr3i.onrender.com/api/waitlist', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(data),
-        });
-
-        if (res.ok) {
-          document.body.innerHTML = `
-            <section class="flex flex-col items-center justify-center text-center px-6 py-20">
-              <h1 class="text-3xl sm:text-4xl font-bold text-green-600 mb-4">🎉 Thanks for joining!</h1>
-              <p class="text-lg text-gray-700">We’ll get back to you shortly.</p>
-            </section>
-          `;
-        } else {
-          const result = await res.json();
-          message.textContent = `❌ ${result.error}`;
-          message.classList.remove('text-green-600');
-          message.classList.add('text-red-600');
-        }
-      } catch (err) {
-        message.textContent = '❌ Something went wrong.';
-        message.classList.remove('text-green-600');
-        message.classList.add('text-red-600');
-      }
-    });
-  </script>
-</body>
-</html>
+    <p clas
